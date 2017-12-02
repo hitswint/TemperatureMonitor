@@ -3,6 +3,9 @@
     <head>
         <meta charset="utf-8" />
         <title>{{website_title}}</title>
+        <script src="https://cdn.staticfile.org/jquery/2.1.3/jquery.js"></script>
+        <script src="https://cdn.staticfile.org/jquery/2.1.3/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/jquery/2.1.3/jquery.min.map"></script>
     </head>
     <body>
         {#% if temperature_list %#}
@@ -15,6 +18,20 @@
         {#% endwith %#}
         {#% endif %#}
         {% load static %}
-        <img src={% static "TM/plot.png"%}></img>
+        <div id="messagecontainer">
+            <img id="plot_file" src={% static "TM/plot.png"%}></img>
+        </div>
+        <script>
+         $(function() {
+             var intervalMS = 10000; // 10 seconds
+             setInterval(function() {
+                 $.get("{% url 'index-plot-view' %}");
+                 /* 更新整个页面； */
+                 /* location.reload(true);*/
+                 /* 改变图片src信息，在src后面加query string强制浏览器更新图片而不是使用cache。 */
+                 $('#plot_file').attr('src', $('#plot_file').attr('src') + '?_=' + new Date().getTime());
+             }, intervalMS);
+         });
+        </script>
     </body>
 </html>

@@ -25,28 +25,32 @@ def index(request):
         add.save()  # 不save无法保存到数据库
         return HttpResponse('login success!')
     else:
-        # 从sqlite中获取数据。
-        conn = sqlite3.connect('db.sqlite3')
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM TM_Temperature")
-        data = cur.fetchall()
-        data_0 = [int(row[0]) for row in data][-100:]
-        data_2 = [float(row[2]) for row in data][-100:]
-
-        plot_file = 'static/TM/plot.png'
-        fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=98)
-        ax1.set_title(u'房间温度', fontproperties='KaiTi')
-        ax1.set_xlabel(u'时间(小时)', fontproperties='KaiTi')
-        ax1.set_ylabel(u'温度(\u2103)', fontproperties='KaiTi')
-        ax1.plot(
-            data_0,
-            data_2,
-            )
-        fig1.savefig(plot_file)
-        plt.close(fig1)
-        
         # temperature_list = Temperature.objects.all()
         return render_to_response('TM/index.html')
+
+
+def index_plot(request):
+    # 从sqlite中获取数据。
+    conn = sqlite3.connect('db.sqlite3')
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM TM_Temperature")
+    data = cur.fetchall()
+    data_0 = [int(row[0]) for row in data][-100:]
+    data_2 = [float(row[2]) for row in data][-100:]
+
+    plot_file = 'static/TM/plot.png'
+    fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=98)
+    ax1.set_title(u'房间温度', fontproperties='KaiTi')
+    ax1.set_xlabel(u'时间(小时)', fontproperties='KaiTi')
+    ax1.set_ylabel(u'温度(\u2103)', fontproperties='KaiTi')
+    ax1.plot(
+        data_0,
+        data_2, )
+    fig1.savefig(plot_file)
+    plt.close(fig1)
+
+    # temperature_list = Temperature.objects.all()
+    return HttpResponse(plot_file)
 
 
 # * Base_Mixin
