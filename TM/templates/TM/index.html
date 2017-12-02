@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8" />
+        <title>{{website_title}}</title>
+    </head>
+    <body>
+        {#% if temperature_list %#}
+        {#% with post_list=temperature_list %#}
+        {#% for post in post_list %#}
+        {#{post.time|time:"H:i" }#}
+        {#{post.value}#}
+        <!-- <br/> -->
+        {#% endfor %#}
+        {#% endwith %#}
+        {#% endif %#}
+        {% load static %}
+        <img src={% static "TM/plot.png"%}></img>
+    </body>
+</html>
