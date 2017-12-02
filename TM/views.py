@@ -30,8 +30,8 @@ def index(request):
         cur = conn.cursor()
         cur.execute("SELECT * FROM TM_Temperature")
         data = cur.fetchall()
-        data_0 = [int(row[0]) for row in data][-10:]
-        data_2 = [float(row[2]) for row in data][-10:]
+        data_0 = [int(row[0]) for row in data][-100:]
+        data_2 = [float(row[2]) for row in data][-100:]
 
         plot_file = 'static/TM/plot.png'
         fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=98)
