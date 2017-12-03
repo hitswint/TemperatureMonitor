@@ -17,16 +17,23 @@ import os
 
 # Create your views here.
 
+on_off = 0
+
 
 @csrf_exempt
 def index(request):
+    global on_off
     if request.method == 'POST':
         add = Temperature(value=request.POST.get("temperature_data", ""))
         add.save()  # 不save无法保存到数据库
-        return HttpResponse('login success!')
+        return HttpResponse(on_off)
     else:
+        on_off_value = request.GET.get('on_off_button')
+        if on_off_value:
+            on_off = int(on_off_value)
+            return HttpResponse(on_off)
         # temperature_list = Temperature.objects.all()
-        return render_to_response('TM/index.html')
+        return render_to_response('TM/index.html', {'on_off': on_off})
 
 
 def index_plot(request):

@@ -21,7 +21,33 @@
         <div id="messagecontainer">
             <img id="plot_file" src={% static "TM/plot.png"%}></img>
         </div>
+        <button type="button" id='ON' class="btn btn-default">开启</button>
+        <button type="button" id='OFF' class="btn btn-default">关闭</button>
+        <div>
+            Led pin is now:
+            <p id="on_off_value">
+                {% ifequal on_off 1 %}
+                    on
+                {% else %}
+                    off
+                {% endifequal %}
+            </p>
+        </div>
         <script>
+         $(document).ready(function(){
+             $("#ON").click(function(){
+                 $.get("{% url 'index-view' %}", {'on_off_button':1}, function(ret){
+                     $('#on_off_value').html('') //清空前面的结果
+                     $('#on_off_value').html(ret) //
+                 })
+             });
+             $("#OFF").click(function(){
+                 $.get("{% url 'index-view' %}", {'on_off_button':0}, function(ret){
+                     $('#on_off_value').html('') //清空前面的结果
+                     $('#on_off_value').html(ret) //
+                 })
+             });
+         });
          $(function() {
              var intervalMS = 10000; // 10 seconds
              setInterval(function() {
