@@ -43,7 +43,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'TM',
     'gunicorn',
+    'channels',
 ]
+
+# 使用redis作为channel的后端，redis作为消息的读写管道。
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+        "ROUTING": "TM.routing.channel_routing",
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

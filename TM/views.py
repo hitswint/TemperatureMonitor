@@ -12,28 +12,26 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import os
+import TM.gl as gl
 
 # logger = logging.getLogger(__name__)
 
 # Create your views here.
 
-on_off = 0
-
 
 @csrf_exempt
 def index(request):
-    global on_off
     if request.method == 'POST':
         add = Temperature(value=request.POST.get("temperature_data", ""))
         add.save()  # 不save无法保存到数据库
-        return HttpResponse(on_off)
+        return HttpResponse(gl.ON_OFF)
     else:
         on_off_value = request.GET.get('on_off_button')
         if on_off_value:
-            on_off = int(on_off_value)
-            return HttpResponse(on_off)
+            gl.ON_OFF = int(on_off_value)
+            return HttpResponse(gl.ON_OFF)
         # temperature_list = Temperature.objects.all()
-        return render_to_response('TM/index.html', {'on_off': on_off})
+        return render_to_response('TM/index.html', {'on_off': gl.ON_OFF})
 
 
 def index_plot(request):
