@@ -1,7 +1,6 @@
 from channels.sessions import channel_session
 from channels import Group
 from TM.models import Temperature
-import TM.gl as gl
 
 
 @channel_session
@@ -15,7 +14,7 @@ def ws_message(message):
     add = Temperature(value=temp_data)
     add.save()  # 不save无法保存到数据库
     # Channel('websocket.receive').send({'message': 'your message'})
-    Group('default').send({'text': str(gl.ON_OFF)})  # 调用websocket返回结果
+    # Group('default').send({'text': str(gl.ON_OFF)})  # 调用websocket返回结果
 
 
 def ws_disconnect(message):

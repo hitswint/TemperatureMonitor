@@ -13,6 +13,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import os
 import TM.gl as gl
+from channels import Group
 
 # logger = logging.getLogger(__name__)
 
@@ -29,6 +30,8 @@ def index(request):
         on_off_value = request.GET.get('on_off_button')
         if on_off_value:
             gl.ON_OFF = int(on_off_value)
+            # Channel('websocket.receive').send({'text': str(gl.ON_OFF)})
+            Group('default').send({'text': str(gl.ON_OFF)})
             return HttpResponse(gl.ON_OFF)
         # temperature_list = Temperature.objects.all()
         return render_to_response('TM/index.html', {'on_off': gl.ON_OFF})
