@@ -2,18 +2,18 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 # from django.views.generic import ListView
-from django.conf import settings
+# from django.conf import settings
 from TM.models import Temperature
 # import logging
 from django.views.decorators.csrf import csrf_exempt
 import sqlite3
 # 查看tables：apt安装sqlite3，然后sqlite3 db.sqlite3，输入.tables。
-import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import os
+# import os
 import TM.gl as gl
 from channels import Group
+# matplotlib.use('Agg')
+# import matplotlib
 
 # logger = logging.getLogger(__name__)
 
@@ -43,14 +43,15 @@ def index_plot(request):
     cur = conn.cursor()
     cur.execute("SELECT * FROM TM_Temperature")
     data = cur.fetchall()
-    data_0 = [int(row[0]) for row in data][-100:]
-    data_2 = [float(row[2]) for row in data][-100:]
+    data_0 = [int(row[0]) for row in data][-500:]
+    data_2 = [float(row[2]) for row in data][-500:]
 
     plot_file = 'static/TM/plot.png'
     fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=98)
     ax1.set_title(u'房间温度', fontproperties='KaiTi')
     ax1.set_xlabel(u'时间(小时)', fontproperties='KaiTi')
     ax1.set_ylabel(u'温度(\u2103)', fontproperties='KaiTi')
+    plt.ylim(-30, 30)
     ax1.plot(
         data_0,
         data_2, )

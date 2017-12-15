@@ -139,3 +139,5 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 WEBSITE_TITLE = u'Swint\'s blog'
+
+TIME_ZONE = 'Asia/Shanghai'
